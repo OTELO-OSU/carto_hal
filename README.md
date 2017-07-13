@@ -1,4 +1,4 @@
-### Widget Carto_HAL ###
+#  Widget Carto_HAL #
 
 Widget permettant de cartographier les pays publiant dans une collection HAL donnée en paramètre.
 
