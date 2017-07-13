@@ -1,0 +1,42 @@
+.leaflet-tooltip{
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+}
+ @page {
+   size: landscape;
+   margin: 9mm 0mm 0mm 16.5mm;  
+    }
+
+    
+  @media print{
+  	#map{
+  		top: 15%;
+  	}
+
+  }
+
+
+#mapcontainer{
+display:none;
+}
+#datatablecontainer{
+display:none;
+}
+
+#buttons_country{
+	margin-bottom: 20px;
+	float: right;
+}
+
+#mapaspdf{
+display: none;
+}
+
+#countryinfo{
+display: none;
+}
+
+td{
+  background-color: #00B5AD!important;
+}

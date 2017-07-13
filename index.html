@@ -1,0 +1,39 @@
+<!doctype html>
+<html ng-app="cartoHal">
+    <head>
+        <title>Carto HAL</title>
+        <script src="app/js/angular.js"></script>
+        <script src="app/js/jquery.min.js"></script>
+        <script src="app/js/print.js"></script>
+        <script src="app/js/jquery.range-min.js"></script>
+        <script src="app/js/leaflet/leaflet.js"></script>
+        <script src="app/app.min.js"></script>
+        <script src="app/js/jquery.dataTables.min.js"></script>
+        <script src="app/js/dataTables.buttons.min.js"></script>
+        <script src="app/js/dataTables.semanticui.min.js"></script>
+        <script src="app/js/buttons.html5.min.js"></script>
+        <script type="text/javascript">
+         var ConfigWidgetHal={
+            ApiURL:"https://api.archives-ouvertes.fr",
+            DisplayMap:true,
+            DisplayDatatable:true,
+            ResultSize:10000,
+            query:"OTELO-UL"
+          }
+        </script>
+        <link rel="stylesheet" href="app/js/leaflet/leaflet.css" />
+        <link rel="stylesheet" type="text/css" href="css/semantic/dist/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery.range.css">
+
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    </head>
+    <body>
+    <h1>Demo Widget Hal</h1>
+        
+    <search></search>
+
+    </body>
+</html>
+

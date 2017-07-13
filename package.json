@@ -1,0 +1,16 @@
+{
+"name": "Hal-widgets-angular",
+"version": "0.0.1",
+"description": "Widgets Hal with AngularJS",
+"author": "Guiot anthony",
+"scripts": {
+"js": "uglifyjs app/Halsearch/HalsearchCtrl.js app/Halsearch/HalsearchDirective.js app/ConfigDefault.js -o app.min.js -cE"
+},
+"dependencies": {
+"uglify-js": "~2.4.23"
+},
+"devDependencies": {
+"angular": "^1.5.2"
+},
+"private": true
+}
