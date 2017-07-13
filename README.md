@@ -1,14 +1,18 @@
-Widget Carto_HAL
+### Widget Carto_HAL ###
 
 Widget permettant de cartographier les pays publiant dans une collection HAL donnée en paramètre.
 
 Les développements de ce projet sont issus du projet Carto_istex :
 
-LIEN VERS LES SOURCES Carto_istex
+[LIEN VERS LES SOURCES Carto_istex](https://github.com/arnouldpy/carto_istex/)
 
 Premièrement, il est nécessaire de charger les fichiers JS et CSS du widget, ainsi que la bibliothèque AngularJS qui est une dépendance nécessaire.
 
 Voici un exemple sur une page:
+
+
+```
+#!html
 
 <!doctype html>
 <html ng-app="cartoHal">
@@ -51,6 +55,8 @@ Voici un exemple sur une page:
     </body>
 </html>
 
+```
+
 On peut voir les différentes inclusion de js et css ainsi que l'ajout de la balise search.
 
 Configuration:
@@ -69,11 +75,22 @@ Le widget peut être configuré de la maniere suivante:
 
 La configuration n'est pas obligatoire, les paramètres par défaut s'appliqueront:
 
+
+```
+#!js
+
 ApiURL:"http://api.archives-ouvertes.fr",
     DisplayMap:true,
     DisplayDatatable:true,
     ResultSize:10000
 
+```
+
 Pour inclure le widget il suffit d'utiliser la balise :
 
+
+```
+#!html
+
 <search><search/>
+```
