@@ -1,6 +1,6 @@
 var app=angular.module('cartoHal', []); // Definition de l'application angular
 
-app.controller('searchctrl',['$scope','$rootScope','$http', function($scope,$rootScope, $http) { //ajout a l'application du controller searchctrl
+app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope,$rootScope, $http,$q) { //ajout a l'application du controller searchctrl
 
 		/**
          * methode array unique
@@ -52,12 +52,75 @@ app.controller('searchctrl',['$scope','$rootScope','$http', function($scope,$roo
 			$("#datatablecontainer").addClass('centered');
 		}
 		var url=$rootScope.ConfigDefault.ApiURL;
-		var resultSize=$rootScope.ConfigDefault.ResultSize;
 		if (querydate==false) {
-			$http.get(url+'/search/'+$scope.query+'?fl=docid,instStructCountry_s,producedDateY_i&rows='+resultSize).
+			$http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000').
 	        then(function(response) {
+	        	var totaldocs=response.data.response.numFound;
+		        if (totaldocs>10000) {	
+		        	$scope.docs=response.data.response.docs;
+		        	$scope.array=[];	
+		        	var arr = [];     
+		        	var array=[];   	
+		        	for (var i = 10000 ; i <= totaldocs; i+=10000) {
+		        		arr.push($http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&start='+i));	
+		        	}
+					$q.all(arr).then(function (ret) {
+		        	angular.forEach(ret,function(index){
+		        		array=array.concat(index.data.response.docs);
+		        	})
+				    
+		        	$scope.docs=array.concat($scope.docs);
+					$scope.getyears(response);
+				});
+		        }	
+		        else{   	
 	        	$scope.docs = response.data.response.docs;
-	        	years=[];
+	        	$scope.getyears(response);
+		        }
+	        
+	        });
+		}
+		else{
+				range=val.split(",", 2);
+				min=range[0];
+				max=range[1];
+				$http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=producedDateY_i:['+min+'%20TO%20'+max+']').
+	      		then(function(response) {
+	      			var totaldocs=response.data.response.numFound;
+	      			if (totaldocs>10000) {	
+		        	$scope.docs=response.data.response.docs;
+		        	$scope.array=[];	
+		        	var arr = [];     
+		        	var array=[];   	
+		        	for (var i = 10000 ; i <= totaldocs; i+=10000) {
+		        		arr.push($http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=producedDateY_i:['+min+'%20TO%20'+max+']&start='+i));	
+		        	}
+					$q.all(arr).then(function (ret) {
+		        	angular.forEach(ret,function(index){
+		        		array=array.concat(index.data.response.docs);
+		        	})
+				    
+		        	$scope.docs=array.concat($scope.docs);
+					$scope.getyears(response);
+				});
+		        }
+		        else{	
+		        	$scope.docs = response.data.response.docs;
+		        	$scope.getyears(response);
+		        }	
+	        	});
+			}
+
+		}
+
+	if ($rootScope.ConfigDefault.query) {
+		$scope.query=$rootScope.ConfigDefault.query.toUpperCase();
+		$scope.search();
+	}
+
+
+	$scope.getyears=function(response){
+			years=[];
 	        	for (doc in $scope.docs) {
 	        		year=$scope.docs[doc].producedDateY_i;
 	        		years.push(year);
@@ -82,32 +145,14 @@ app.controller('searchctrl',['$scope','$rootScope','$http', function($scope,$roo
 
 	        	$('.range-slider').jRange('setValue', $scope.minyear+','+$scope.maxyear);
 	        	$scope.parsingdata(response);
-	        });
-		}
-		else{
-				range=val.split(",", 2);
-				min=range[0];
-				max=range[1];
-				$http.get(url+'/search/'+$scope.query+'?fl=docid,instStructCountry_s&rows='+resultSize+'&fq=producedDateY_i:['+min+'%20TO%20'+max+']').
-	      		then(function(response) {
-	        	$scope.parsingdata(response);
-	        	});
-			}
-
-		}
-
-	if ($rootScope.ConfigDefault.query) {
-		$scope.query=$rootScope.ConfigDefault.query;
-		$scope.search();
 	}
 
 	$scope.parsingdata=function(response){
         	var nocountrycode=0;
-            $scope.docs = response.data.response.docs;
         	 $.getJSON("app/js/countries.json", function(json) {
     			bigarray=[];
     			for (doc in $scope.docs) {
-    			 	countrycodes=$scope.docs[doc].instStructCountry_s;
+    			 	countrycodes=$scope.docs[doc].structCountry_s;
     			 	if (countrycodes) {
     			 	countrycodes=countrycodes.map(function(x){ return x.toUpperCase() })
     			 	countrycodes=$scope.unique(countrycodes)
@@ -155,6 +200,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http', function($scope,$roo
     			 			array.push(value);
     			 			array.push(lat);
     			 			array.push(lon);
+    			 			array.push(countrycode);
     			 			arrayrender.push(array);
     			 		}
 					});
@@ -217,6 +263,9 @@ app.controller('searchctrl',['$scope','$rootScope','$http', function($scope,$roo
 					circle.bindPopup("Country: "+value[0]+"<br>Number of publications: "+value[1]);
 					circle.on('mouseover', function (e) {
 		            	this.openPopup();
+			        });
+			        circle.on('click', function (e) {
+		      			window.open("https://hal.archives-ouvertes.fr/search/index/?qa%5BstructCountry_t%5D%5B%5D="+value[4]+"&qa%5BcollCode_s%5D%5B%5D="+$scope.query+"&qa%5Btext%5D%5B%5D=&submit_advanced=Search&rows=30","__blank"); 
 			        });
 			        circle.on('mouseout', function (e) {
 			            this.closePopup();
