@@ -247,6 +247,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 		    		coef=0.6;
 		    		div=4;
 	    		$.each(arrayrender, function(key, value) {
+		    		fillOpacity=0.5;
 	    			occurence=value[1];
 	    			if (occurence==1) {
 						var radius=base;
@@ -266,13 +267,17 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 						radius=100;
 					}
 	    			color = '#'+Math.floor(Math.random()*16777215).toString(16);
+					if (value[4]=="FR") {
+						color="#FFFFFF";
+						fillOpacity=0.0;
+						radius=7;
+					}
 	    			var circle = L.circleMarker([value[2],value[3]], {
 						color: color,
 						fillColor: color ,
-						fillOpacity: 0.5,
+						fillOpacity: fillOpacity,
 						radius: radius
 					}); // creation d'un marker
-					if (value[4]!="FR") {
 
 
 					circle.bindPopup("Country: "+value[0]+"<br>Number of publications: "+value[1]);
@@ -288,7 +293,6 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 
 					circle.bindTooltip("<b>"+value[1]+"</b>",{ noHide: true ,permanent:true,direction:'center'}).openTooltip();
 					markers.push(circle);// push du marker dans le tableau
-				}
 
 	    		});
 	    		if (typeof(group)!=='undefined') { // si une layer existe deja on la supprime
@@ -301,7 +305,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 				mymap.fitBounds(bounds); // zoom sur la partie qui des poi qui nous interessent
 				$('.print').off('click');
 				$('.print').on('click', function() {//print de la map
-					$.print("#map",{title:"Map of publications per country for collection : "+$scope.query});
+					$.print("#map",{title:"Country collaboration for collection HAL : "+$scope.query});
 				});
 				$("#loadermap").hide();
 				$("#mapaspdf").show();
