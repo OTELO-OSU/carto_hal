@@ -244,9 +244,19 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 		       	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mymap); 	
     			 var markers = [] ;
     			 	base=4;
-		    		coef=0.6;
-		    		div=4;
 	    		$.each(arrayrender, function(key, value) {
+    			 	if (value[1]<=300) {
+    			 		coef=1.3;
+		    			div=5;
+    			 	}
+    			 	else if (value[1]>300 && value[1]<600) {
+    			 		coef=0.6;
+		    			div=3;
+    			 	}
+    			 	else{
+    			 		coef=0.4;
+		    			div=2;
+    			 	} 		
 		    		fillOpacity=0.5;
 	    			occurence=value[1];
 	    			if (occurence==1) {
@@ -263,8 +273,8 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 					if (radius<7) {
 						radius=7;
 					}
-					if (radius>100) {
-						radius=100;
+					if (radius>90) {
+						radius=90;
 					}
 	    			color = '#'+Math.floor(Math.random()*16777215).toString(16);
 					if (value[4]=="FR") {
@@ -298,6 +308,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 	    		if (typeof(group)!=='undefined') { // si une layer existe deja on la supprime
     				mymap.removeLayer(group);
    			 	}
+
 	      		group = L.featureGroup(markers); // on met le groupe de markers dans une layer
 	      		group.addTo(mymap); // on l'ajoute a la map
 		        bounds = group.getBounds();	// on obtient le bounds pour placer la vue
