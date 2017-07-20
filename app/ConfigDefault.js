@@ -3,7 +3,7 @@ app.run(['$rootScope', function($rootScope) {//Passage en rootscope afin de  par
         ApiURL:"http://api.archives-ouvertes.fr",
         DisplayMap:true,
         DisplayDatatable:true,
-	DocumentType:"COMM,ART",
+	DocumentType:"",
     }
 
  if(window.ConfigWidgetHal) { // si une config est preésente dans le document html

@@ -51,6 +51,8 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 			$("#loadermap").hide();
 			$("#datatablecontainer").addClass('centered');
 		}
+
+			var documentype_query="";
 		if ($rootScope.ConfigDefault.DocumentType!="") {
 			var documentype=$rootScope.ConfigDefault.DocumentType;
 			documentype=documentype.split(",");
@@ -58,14 +60,13 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 			documentype.forEach(function(e){
 			   documentype_query+= e + " OR ";
 			});
-			documentype_query=documentype_query.trim(" OR ").slice(0, -2);
+			documentype_query_app='('+documentype_query.trim(" OR ").slice(0, -2)+')';
+			documentype_query='&fq=docType_s:('+documentype_query.trim(" OR ").slice(0, -2)+')';
 		}
-		else{
-			documentype_query="";
-		}
+		$scope.documentype_query=documentype_query_app;
 		var url=$rootScope.ConfigDefault.ApiURL;
 		if (querydate==false) {
-			$http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=docType_s:('+documentype_query+')').
+			$http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000'+documentype_query).
 	        then(function(response) {
 	        	var totaldocs=response.data.response.numFound;
 		        if (totaldocs>10000) {	
@@ -74,7 +75,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 		        	var arr = [];     
 		        	var array=[];   	
 		        	for (var i = 10000 ; i <= totaldocs; i+=10000) {
-		        		arr.push($http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=docType_s:('+documentype_query+')&start='+i));	
+		        		arr.push($http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000'+documentype_query+'&start='+i));	
 		        	}
 					$q.all(arr).then(function (ret) {
 		        	angular.forEach(ret,function(index){
@@ -96,7 +97,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 				range=val.split(",", 2);
 				min=range[0];
 				max=range[1];
-				$http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=producedDateY_i:['+min+'%20TO%20'+max+']&docType_s:('+documentype_query+')').
+				$http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=producedDateY_i:['+min+'%20TO%20'+max+']'+documentype_query).
 	      		then(function(response) {
 	      			var totaldocs=response.data.response.numFound;
 	      			if (totaldocs>10000) {	
@@ -105,7 +106,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 		        	var arr = [];     
 		        	var array=[];   	
 		        	for (var i = 10000 ; i <= totaldocs; i+=10000) {
-		        		arr.push($http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=producedDateY_i:['+min+'%20TO%20'+max+']&docType_s:('+documentype_query+')&start='+i));	
+		        		arr.push($http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=producedDateY_i:['+min+'%20TO%20'+max+']'+documentype_query+'&start='+i));	
 		        	}
 					$q.all(arr).then(function (ret) {
 		        	angular.forEach(ret,function(index){
@@ -295,7 +296,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 		            	this.openPopup();
 			        });
 			        circle.on('click', function (e) {
-		      			window.open("https://hal.archives-ouvertes.fr/search/index/?qa%5BstructCountry_t%5D%5B%5D="+value[4]+"&qa%5BcollCode_s%5D%5B%5D="+$scope.query+"&qa%5Btext%5D%5B%5D=&submit_advanced=Search&rows=30","__blank"); 
+		      			window.open("https://hal.archives-ouvertes.fr/search/index/?qa%5BstructCountry_t%5D%5B%5D="+value[4]+"&qa%5BcollCode_s%5D%5B%5D="+$scope.query+"&qa[producedDateY_i][]=["+$scope.minyear+" TO "+$scope.maxyear+"]&qa[docType_s][]="+$scope.documentype_query+"&qa%5Btext%5D%5B%5D=&submit_advanced=Search&rows=30","__blank"); 
 			        });
 			        circle.on('mouseout', function (e) {
 			            this.closePopup();
