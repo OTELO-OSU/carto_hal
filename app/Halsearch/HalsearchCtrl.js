@@ -53,6 +53,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 		}
 
 			var documentype_query="";
+			var documentype_query_app=""
 		if ($rootScope.ConfigDefault.DocumentType!="") {
 			var documentype=$rootScope.ConfigDefault.DocumentType;
 			documentype=documentype.split(",");
