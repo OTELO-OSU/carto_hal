@@ -51,9 +51,21 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 			$("#loadermap").hide();
 			$("#datatablecontainer").addClass('centered');
 		}
+		if ($rootScope.ConfigDefault.DocumentType!="") {
+			var documentype=$rootScope.ConfigDefault.DocumentType;
+			documentype=documentype.split(",");
+			var documentype_query="";
+			documentype.forEach(function(e){
+			   documentype_query+= e + " OR ";
+			});
+			documentype_query=documentype_query.trim(" OR ").slice(0, -2);
+		}
+		else{
+			documentype_query="";
+		}
 		var url=$rootScope.ConfigDefault.ApiURL;
 		if (querydate==false) {
-			$http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000').
+			$http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=docType_s:('+documentype_query+')').
 	        then(function(response) {
 	        	var totaldocs=response.data.response.numFound;
 		        if (totaldocs>10000) {	
@@ -62,7 +74,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 		        	var arr = [];     
 		        	var array=[];   	
 		        	for (var i = 10000 ; i <= totaldocs; i+=10000) {
-		        		arr.push($http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&start='+i));	
+		        		arr.push($http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=docType_s:('+documentype_query+')&start='+i));	
 		        	}
 					$q.all(arr).then(function (ret) {
 		        	angular.forEach(ret,function(index){
@@ -84,7 +96,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 				range=val.split(",", 2);
 				min=range[0];
 				max=range[1];
-				$http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=producedDateY_i:['+min+'%20TO%20'+max+']').
+				$http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=producedDateY_i:['+min+'%20TO%20'+max+']&docType_s:('+documentype_query+')').
 	      		then(function(response) {
 	      			var totaldocs=response.data.response.numFound;
 	      			if (totaldocs>10000) {	
@@ -93,7 +105,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 		        	var arr = [];     
 		        	var array=[];   	
 		        	for (var i = 10000 ; i <= totaldocs; i+=10000) {
-		        		arr.push($http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=producedDateY_i:['+min+'%20TO%20'+max+']&start='+i));	
+		        		arr.push($http.get(url+'/search/'+$scope.query+'?fl=structCountry_s,producedDateY_i&rows=10000&fq=producedDateY_i:['+min+'%20TO%20'+max+']&docType_s:('+documentype_query+')&start='+i));	
 		        	}
 					$q.all(arr).then(function (ret) {
 		        	angular.forEach(ret,function(index){
@@ -260,6 +272,9 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 						fillOpacity: 0.5,
 						radius: radius
 					}); // creation d'un marker
+					if (value[4]!="FR") {
+
+
 					circle.bindPopup("Country: "+value[0]+"<br>Number of publications: "+value[1]);
 					circle.on('mouseover', function (e) {
 		            	this.openPopup();
@@ -273,6 +288,7 @@ app.controller('searchctrl',['$scope','$rootScope','$http','$q', function($scope
 
 					circle.bindTooltip("<b>"+value[1]+"</b>",{ noHide: true ,permanent:true,direction:'center'}).openTooltip();
 					markers.push(circle);// push du marker dans le tableau
+				}
 
 	    		});
 	    		if (typeof(group)!=='undefined') { // si une layer existe deja on la supprime
