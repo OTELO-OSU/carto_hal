@@ -37,14 +37,3 @@ display: none;
 display: none;
 }
 
-#datatablecontainer td{
-  background-color: #00B5AD!important;
-}
-
-.low {
-	z-index:2;
-}
-
-.high {
-	z-index:1;
-}
