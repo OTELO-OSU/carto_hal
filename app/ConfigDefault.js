@@ -4,6 +4,8 @@ app.run(['$rootScope', function($rootScope) {//Passage en rootscope afin de  par
         DisplayMap:true,
         DisplayDatatable:true,
 	DocumentType:"",
+	DisplayTitle:true,
+        CountryField:"structCountry_s"
     }
 
  if(window.ConfigWidgetHal) { // si une config est preésente dans le document html

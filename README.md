@@ -12,7 +12,7 @@ Voici un exemple sur une page:
 
 
 ```
-
+#!html
 
 <!doctype html>
 <html ng-app="cartoHal">
@@ -77,7 +77,7 @@ La configuration n'est pas obligatoire, les paramètres par défaut s'appliquero
 
 
 ```
-
+#!js
 
 ApiURL:"http://api.archives-ouvertes.fr",
     DisplayMap:true,
@@ -90,8 +90,7 @@ Pour inclure le widget il suffit d'utiliser la balise :
 
 
 ```
+#!html
 
-<html ng-app="cartoHal">
 <search><search/>
-</html>
 ```
