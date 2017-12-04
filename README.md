@@ -69,13 +69,14 @@ Le widget peut être configuré de la maniere suivante:
 
     Afficher ou non le tableau des pays : DisplayDatatable
 
-    Paramétrer le nombre de résultats retournés par l'API : ResultSize
-
     Paramétrer la collection à interroger : query
     
     Paramétrer le champs a interroger: CountryField
     
-    Afficehr le titre par défaut: DisplayTitle
+    Afficher le titre par défaut: DisplayTitle
+    
+    Choix des types de documents a interroger: DocumentType
+    
 
 La configuration n'est pas obligatoire, les paramètres par défaut s'appliqueront:
 
@@ -86,7 +87,9 @@ La configuration n'est pas obligatoire, les paramètres par défaut s'appliquero
 ApiURL:"http://api.archives-ouvertes.fr",
     DisplayMap:true,
     DisplayDatatable:true,
-    ResultSize:10000
+    DocumentType:"",
+	DisplayTitle:true,
+    CountryField:"structCountry_s"
 
 ```
 
