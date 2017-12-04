@@ -72,6 +72,10 @@ Le widget peut être configuré de la maniere suivante:
     Paramétrer le nombre de résultats retournés par l'API : ResultSize
 
     Paramétrer la collection à interroger : query
+    
+    Paramétrer le champs a interroger: CountryField
+    
+    Afficehr le titre par défaut: DisplayTitle
 
 La configuration n'est pas obligatoire, les paramètres par défaut s'appliqueront:
 
