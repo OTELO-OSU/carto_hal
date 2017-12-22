@@ -1,6 +1,7 @@
 app.run(['$rootScope', function($rootScope) {//Passage en rootscope afin de  partager les variables
     $rootScope.ConfigDefault = {//Config par defaut
         ApiURL:"http://api.archives-ouvertes.fr",
+        url_consult:"http://hal.archives-ouvertes.fr",
         DisplayMap:true,
         DisplayDatatable:true,
 	DocumentType:"",
