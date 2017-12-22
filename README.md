@@ -64,6 +64,8 @@ Configuration:
 Le widget peut être configuré de la maniere suivante:
 
     Url de l'API HAL : ApiURL
+    
+    Url de consultation HAL : url_consult
 
     Afficher ou non la carte (leaflet) : DisplayMap
 
@@ -84,11 +86,12 @@ La configuration n'est pas obligatoire, les paramètres par défaut s'appliquero
 ```
 #!js
 
-ApiURL:"http://api.archives-ouvertes.fr",
+    ApiURL:"http://api.archives-ouvertes.fr",
+    url_consult:"https://hal.archives-ouvertes.fr/",
     DisplayMap:true,
     DisplayDatatable:true,
     DocumentType:"",
-	DisplayTitle:true,
+    DisplayTitle:true,
     CountryField:"structCountry_s"
 
 ```
