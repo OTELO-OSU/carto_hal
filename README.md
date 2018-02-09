@@ -69,7 +69,7 @@ Le widget peut être configuré de la maniere suivante:
 
     Url de l'API HAL : ApiURL
     
-    Url de consultation HAL : url_consult
+    Url de consultation HAL : url_consult (peux être laisser à vide mais positionné dans ApiURL, cf exemple)
 
     Afficher ou non la carte (leaflet) : DisplayMap
 
