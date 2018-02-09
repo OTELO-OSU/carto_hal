@@ -31,11 +31,15 @@ Voici un exemple sur une page:
         <script src="app/js/buttons.html5.min.js"></script>
         <script type="text/javascript">
          var ConfigWidgetHal={
-            ApiURL:"http://api.archives-ouvertes.fr",
-            DisplayMap:true,
-            DisplayDatatable:true,
-            ResultSize:10000,
-            query:"OTELO-UL"
+            ApiURL: "https://api.archives-ouvertes.fr" + "/search/" + "OTELO-UL",
+            DisplayMap: true,
+            DisplayDatatable: false,
+            DocumentType:"*",
+            query:"*",
+            DisplayTitle:false,
+            CountryField: "structCountry_s",
+            url_consult: ""
+            
           }
 
         </script>
