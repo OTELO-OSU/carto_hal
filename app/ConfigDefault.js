@@ -6,7 +6,7 @@ app.run(['$rootScope', function($rootScope) {//Passage en rootscope afin de  par
         DisplayDatatable:true,
 	DocumentType:"",
 	DisplayTitle:true,
-        CountryField:"structCountry_s"
+        CountryField:"structCountry_s",
         CountryField_t:"structCountry_t"
     }
 
