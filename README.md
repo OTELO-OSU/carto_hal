@@ -38,6 +38,7 @@ Voici un exemple sur une page:
             query:"*",
             DisplayTitle:false,
             CountryField: "structCountry_s",
+            CountryField_t: "structCountry_t",
             url_consult: ""
             
           }
@@ -79,6 +80,8 @@ Le widget peut être configuré de la maniere suivante:
     
     Paramétrer le champs a interroger: CountryField
     
+    Paramétrer le champs utiliser pour l'url de recherche sur Hal: CountryField_t
+    
     Afficher le titre par défaut: DisplayTitle
     
     Choix des types de documents a interroger: DocumentType
@@ -96,7 +99,8 @@ La configuration n'est pas obligatoire, les paramètres par défaut s'appliquero
     DisplayDatatable:true,
     DocumentType:"",
     DisplayTitle:true,
-    CountryField:"structCountry_s"
+    CountryField:"structCountry_s",
+    CountryField_t:"structCountry_t"
 
 ```
 
