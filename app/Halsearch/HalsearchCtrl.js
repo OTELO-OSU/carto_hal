@@ -917,7 +917,7 @@ app.controller('searchctrl', ['$scope', '$rootScope', '$http', '$q', function($s
                 this.openPopup();
             });
             circle.on('click', function(e) {
-                window.open($rootScope.ConfigDefault.url_consult+"/search/index/?qa%5BstructCountry_t%5D%5B%5D=" + value[4] + "&qa%5BcollCode_s%5D%5B%5D=" + $scope.query + "&qa[producedDateY_i][]=[" + $scope.minyear + " TO " + $scope.maxyear + "]&qa[docType_s][]=" + $scope.documentype_query + "&qa%5Btext%5D%5B%5D=&submit_advanced=Search&rows=30", "__blank");
+                window.open($rootScope.ConfigDefault.url_consult+"/search/index/?qa%5B"+$rootScope.ConfigDefault.CountryField_t+"%5D%5B%5D=" + value[4] + "&qa%5BcollCode_s%5D%5B%5D=" + $scope.query + "&qa[producedDateY_i][]=[" + $scope.minyear + " TO " + $scope.maxyear + "]&qa[docType_s][]=" + $scope.documentype_query + "&qa%5Btext%5D%5B%5D=&submit_advanced=Search&rows=30", "__blank");
             });
             circle.on('mouseout', function(e) {
                 this.closePopup();

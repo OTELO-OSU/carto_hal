@@ -7,6 +7,7 @@ app.run(['$rootScope', function($rootScope) {//Passage en rootscope afin de  par
 	DocumentType:"",
 	DisplayTitle:true,
         CountryField:"structCountry_s"
+        CountryField_t:"structCountry_t"
     }
 
  if(window.ConfigWidgetHal) { // si une config est preésente dans le document html
