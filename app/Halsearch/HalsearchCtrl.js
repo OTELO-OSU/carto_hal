@@ -680,6 +680,10 @@ app.controller('searchctrl', ['$scope', '$rootScope', '$http', '$q', function($s
                 "name": "Serbia",
                 "coords": [44, 21]
             },
+	    "SG": {
+                "name": "Singapore",
+                "coords": [1, 103]
+            },
             "SL": {
                 "name": "Sierra Leone",
                 "coords": [8.5, -11.5]
